@@ -1,37 +1,43 @@
 
-A simple api to demonstrate usage of falcon framework.
+A simple api, to demonstrate usage of falcon framework.
 Sqlalchemy for the database operations.
 
 
-Usage:
+###**Usage**:
 
 	$ pip install -r requirements.txt
-
-	in project folder:
-
+	$
 	$ python
 	>>> import manage
 	>>> manage.create_tables()
 
-	Now you have a database and ready to use falcon api:
+Now you have a database and ready to use falcon api:
 
 	$ python manage.py
 
 
-Methods
+###**Methods**
 -----------------------------------------------------------------------------
+Lets install httpie: 
 
-get
+    $ pip install httpie
 
-	Open address in browser, should see an empty list for first time
+_get_:
 
-post
+    $ http get localhost:5000 username=foo email=foo@bar.com
+    HTTP/1.0 200 OK
+    content-length: 39
+    content-type: application/json; charset=UTF-8
+    {
+        "email": "foo@bar", 
+        "username": "foo"
+    }
 
-	$ pip install httpie
+_post_:
 
 	$ http post localhost:5000 username=foo email=foo@bar.com
 
-delete
+_delete_:
 
 	$ http delete localhost:5000 username=foo email=foo@bar.com
 
