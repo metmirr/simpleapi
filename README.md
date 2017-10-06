@@ -2,8 +2,7 @@
 A simple api, to demonstrate usage of falcon framework.
 Sqlalchemy for the database operations.
 
-
-###Usage:
+**Usage:**
 
 	$ pip install -r requirements.txt
 	$
@@ -14,11 +13,8 @@ Sqlalchemy for the database operations.
 Now you have a database and ready to use falcon api:
 
 	$ python manage.py
-
-
-###Methods
 -----------------------------------------------------------------------------
-Lets install httpie: 
+**Methods:**
 
     $ pip install httpie
 
