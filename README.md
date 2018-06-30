@@ -20,7 +20,7 @@ Now you have a database and ready to use falcon api:
 
 _get_:
 
-    $ http get localhost:5000 username=foo email=foo@bar.com
+    $ http localhost:5000/user username==foo email==foo@bar.com
     HTTP/1.0 200 OK
     content-length: 39
     content-type: application/json; charset=UTF-8
@@ -31,10 +31,10 @@ _get_:
 
 _post_:
 
-	$ http post localhost:5000 username=foo email=foo@bar.com
+	$ http post localhost:5000/user username==foo email==foo@bar.com
 
 _delete_:
 
-	$ http delete localhost:5000 username=foo email=foo@bar.com
+	$ http delete localhost:5000/user username==foo email==foo@bar.com
 
 
