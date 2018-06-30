@@ -3,4 +3,5 @@ __pycache__
 # database file
 data.sqlite
 
-.cache
+# virtualenv
+venv
