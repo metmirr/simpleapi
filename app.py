@@ -43,9 +43,9 @@ class UserResource(object):
         self.d = OrderedDict()
 
     def on_get(self, req, resp):
-        username, email = extract_data_from_body(req.stream.read())
         user = session.query(User).filter(
-            (User.username == username) | (User.email == email)).first()
+            (User.username == req.get_param('username'))
+            | (User.email == req.get_param('email'))).first()
         if user:
             self.d['username'] = user.username
             self.d['email'] = user.email
@@ -56,11 +56,12 @@ class UserResource(object):
             resp.status = falcon.HTTP_404
 
     def on_post(self, req, resp):
-        username, email = extract_data_from_body(req.stream.read())
+        username = req.get_param('username')
+        email = req.get_param('email')
 
         user = session.query(User).filter(
             (User.username == username) | (User.email == email)).first()
-        if not user:
+        if not user and username and email:
             user = User(username=username, email=email)
             session.add(user)
             session.commit()
@@ -71,9 +72,9 @@ class UserResource(object):
             resp.status = falcon.HTTP_200
 
     def on_delete(self, req, resp):
-        username, email = extract_data_from_body(req.stream.read())
         user = session.query(User).filter(
-            (User.username == username) & (User.email == email)).first()
+            (User.username == req.get_param('username'))
+            & (User.email == req.get_param('email'))).first()
         if user:
             session.delete(user)
             session.commit()
