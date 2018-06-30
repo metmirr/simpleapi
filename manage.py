@@ -4,7 +4,7 @@ import os
 import click
 from werkzeug.serving import run_simple
 
-from app import engine, app, Base
+from app import engine, api, Base
 
 
 @click.group()
@@ -14,7 +14,7 @@ def cli():
 
 @cli.command()
 def runserver():
-    run_simple('localhost', 5000, app,
+    run_simple('localhost', 5000, api,
                use_debugger=True, use_reloader=True)
 
 

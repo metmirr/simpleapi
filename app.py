@@ -20,11 +20,6 @@ class User(Base):
     email = Column(String(64), unique=True)
 
 
-def extract_data_from_body(body):
-        body = json.loads(body.decode('utf-8'))
-        return body.get('username'), body.get('email')
-
-
 class Index(object):
     def __init__(self):
         self.d = OrderedDict()
@@ -85,10 +80,6 @@ class UserResource(object):
             resp.status = falcon.HTTP_404
 
 
-def create_app():
-    return falcon.API()
-
-
-app = create_app()
-app.add_route('/', Index())
-app.add_route('/user', UserResource())
+api = falcon.API()
+api.add_route('/', Index())
+api.add_route('/user', UserResource())
