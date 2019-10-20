@@ -1,40 +1,62 @@
+# Simple REST API with falcon framework
 
-A simple api, to demonstrate usage of falcon framework.
-Sqlalchemy for the database operations.
+A simple api, to demonstrate usage of falcon framework. It uses sqlite for database and sqlalchemy as orm.
 
-**Usage:**
+## Install Requirements
+You can use virtualenv, pipenv or python builtin venv module to create an environmen. I will be using pipenv:
 
-	$ pip install -r requirements.txt
-	$
-	$ python
-	>>> import manage
-	>>> manage.create_tables()
+```shell
+$ pipenv --python 3.7
+$ pipenv shell && pipenv install
+```
+After requirements installation create a database file with command below:
 
-Now you have a database and ready to use falcon api:
+```shell
+$ python manage.py initdb
+```
 
-	$ python manage.py
------------------------------------------------------------------------------
+If you see this message *You have database file in the current directoryto createad it run dropdb, initdb commands respectively.* run `python manage.py dropdb` and `python manage.py dropdb` commands
+
+Now you have a database and ready to use falcon api. Let`s run the server:
+
+```shell
+$ python manage.py runserver
+ * Running on http://localhost:5000/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 227-578-359
+```
+
+
 **Methods:**
 
-    $ pip install httpie
+```shell
+$ sudo pip install httpie
+```
 
-_get_:
+Calling http methods:
 
-    $ http localhost:5000/user username==foo email==foo@bar.com
-    HTTP/1.0 200 OK
-    content-length: 39
-    content-type: application/json; charset=UTF-8
-    {
-        "email": "foo@bar", 
-        "username": "foo"
-    }
+**get**:
 
-_post_:
+```shell
+$ http localhost:5000/user username==foo email==foo@bar.com
+HTTP/1.0 200 OK
+content-length: 39
+content-type: application/json; charset=UTF-8
+{
+    "email": "foo@bar",
+    "username": "foo"
+}
+```
 
-	$ http post localhost:5000/user username==foo email==foo@bar.com
+**post**:
 
-_delete_:
+```shell
+$ http post localhost:5000/user username==foo email==foo@bar.com
+```
 
-	$ http delete localhost:5000/user username==foo email==foo@bar.com
+**delete**:
 
-
+```shell
+$ http delete localhost:5000/user username==foo email==foo@bar.com
+```
