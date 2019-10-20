@@ -43,19 +43,20 @@ class UserResource(object):
             resp.status = falcon.HTTP_404
 
     def on_post(self, req, resp):
-        username = req.get_param("username")
-        email = req.get_param("email")
-
+        data = json.load(req.bounded_stream)
         user = (
             session.query(User)
-            .filter((User.username == username) | (User.email == email))
+            .filter(
+                (User.username == data["username"])
+                | (User.email == data["email"])
+            )
             .first()
         )
         if user is None:
-            user = User(username=username, email=email)
+            user = User(username=data["username"], email=data["email"])
             session.add(user)
             session.commit()
-            resp.body = "User has been created."
+            resp.body = json.dumps({"message": "User has been created."})
             resp.status = falcon.HTTP_302
         else:
             resp.body = json.dumps(
