@@ -52,11 +52,11 @@ content-type: application/json; charset=UTF-8
 **post**:
 
 ```shell
-$ http post localhost:5000/user username==foo email==foo@bar.com
+$ http post localhost:5000/user username=foo email=foo@bar.com
 ```
 
 **delete**:
 
 ```shell
-$ http delete localhost:5000/user username==foo email==foo@bar.com
+$ http delete localhost:5000/user username==foo
 ```
