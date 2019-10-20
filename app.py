@@ -19,6 +19,9 @@ class User(Base):
     username = Column(String(64))
     email = Column(String(64), unique=True)
 
+    def to_json(self):
+        return {"username": self.username, "email": self.email}
+
 
 class Index(object):
     def on_get(self, req, resp):
@@ -31,23 +34,11 @@ class Index(object):
 
 
 class UserResource(object):
-    def __init__(self):
-        """OrderedDict use to keep user fields in order"""
-        self.d = OrderedDict()
-
     def on_get(self, req, resp):
-        user = (
-            session.query(User)
-            .filter(
-                (User.username == req.get_param("username"))
-                | (User.email == req.get_param("email"))
-            )
-            .first()
-        )
+        username = req.get_param("username")
+        user = session.query(User).filter((User.username == username)).first()
         if user:
-            self.d["username"] = user.username
-            self.d["email"] = user.email
-            resp.body = json.dumps(self.d)
+            resp.body = json.dumps(user.to_json())
             resp.status = falcon.HTTP_200
         else:
             resp.body = b"User not found!"
@@ -62,32 +53,31 @@ class UserResource(object):
             .filter((User.username == username) | (User.email == email))
             .first()
         )
-        if not user and username and email:
+        if user is None:
             user = User(username=username, email=email)
             session.add(user)
             session.commit()
             resp.body = "User has been created."
             resp.status = falcon.HTTP_302
         else:
-            resp.body = b"username or email already in use."
+            resp.body = b"Username or email already in use."
             resp.status = falcon.HTTP_200
 
     def on_delete(self, req, resp):
+        username = req.get_param("username")
+        email = req.get_param("email")
         user = (
             session.query(User)
-            .filter(
-                (User.username == req.get_param("username"))
-                & (User.email == req.get_param("email"))
-            )
+            .filter((User.username == username) & (User.email == email))
             .first()
         )
-        if user:
+        if user is not None:
             session.delete(user)
             session.commit()
-            resp.data = b"user deleted."
+            resp.data = b"User deleted."
             resp.status = falcon.HTTP_200
         else:
-            resp.data = b"user not found."
+            resp.data = b"User not found."
             resp.status = falcon.HTTP_404
 
 
