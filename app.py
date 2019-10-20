@@ -21,15 +21,13 @@ class User(Base):
 
 
 class Index(object):
-    def __init__(self):
-        self.d = OrderedDict()
-
     def on_get(self, req, resp):
-        self.d["message"] = "It's a simple api written with falcon"
-        self.d["db"] = "sqlite"
-        self.d["orm"] = "sqlalchemy"
-
-        resp.body = json.dumps(self.d)
+        msg = {
+            "message": "It's a simple api written with falcon",
+            "database": "sqlite",
+            "orm": "sqlalchemy",
+        }
+        resp.body = json.dumps(msg)
 
 
 class UserResource(object):
