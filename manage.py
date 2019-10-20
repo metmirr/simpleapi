@@ -21,8 +21,8 @@ def runserver():
 def initdb():
     if os.path.isfile("data.sqlite"):
         click.echo(
-            """You have database file in the current directory
-            to createad it run dropdb, initdb commands respectively."""
+            "You have database file in the current directory"
+            "to createad it run dropdb, initdb commands respectively."
         )
     else:
         click.echo("initializing database...")
