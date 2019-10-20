@@ -39,14 +39,5 @@ def dropdb():
         click.echo("The database doesn't exists")
 
 
-@cli.command()
-def test():
-    click.echo("running tests...")
-    import unittest
-
-    tests = unittest.TestLoader().discover("tests")
-    unittest.TextTestRunner(verbosity=2).run(tests)
-
-
 if __name__ == "__main__":
     cli()
