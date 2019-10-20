@@ -37,11 +37,11 @@ class UserResource(object):
     def on_get(self, req, resp):
         username = req.get_param("username")
         user = session.query(User).filter((User.username == username)).first()
-        if user:
+        if user is not None:
             resp.body = json.dumps(user.to_json())
             resp.status = falcon.HTTP_200
         else:
-            resp.body = b"User not found!"
+            resp.body = json.dumps({"error": "User not found"})
             resp.status = falcon.HTTP_404
 
     def on_post(self, req, resp):
@@ -60,7 +60,9 @@ class UserResource(object):
             resp.body = "User has been created."
             resp.status = falcon.HTTP_302
         else:
-            resp.body = b"Username or email already in use."
+            resp.body = json.dumps(
+                {"error": "Username or email already in use."}
+            )
             resp.status = falcon.HTTP_200
 
     def on_delete(self, req, resp):
@@ -74,10 +76,11 @@ class UserResource(object):
         if user is not None:
             session.delete(user)
             session.commit()
-            resp.data = b"User deleted."
+
+            resp.data = json.dumps({"message": "User deleted."})
             resp.status = falcon.HTTP_200
         else:
-            resp.data = b"User not found."
+            resp.body = json.dumps({"error": "User not found"})
             resp.status = falcon.HTTP_404
 
 
